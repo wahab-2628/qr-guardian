@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>QR Guardian - Register Item</title>
+  <script src="qrcode.min.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; padding: 30px; }
+    input, button { padding: 10px; width: 250px; margin-top: 10px; }
+    #qrcode { margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h1>QR Guardian</h1>
+  <p>Register your item below and generate a QR code.</p>
+  <form onsubmit="generateQR(event)">
+    <input type="text" id="name" placeholder="Owner's Name" required><br>
+    <input type="text" id="contact" placeholder="Contact Info" required><br>
+    <button type="submit">Generate QR Code</button>
+  </form>
+  <div id="qrcode"></div>
+  <p id="qrLink"></p>
+
+  <script>
+    function generateQR(e) {
+      e.preventDefault();
+      const name = document.getElementById('name').value;
+      const contact = document.getElementById('contact').value;
+      const baseUrl = window.location.origin + "/view.html";
+      const fullUrl = `${baseUrl}?name=${encodeURIComponent(name)}&contact=${encodeURIComponent(contact)}`;
+
+      document.getElementById("qrcode").innerHTML = "";
+      new QRCode(document.getElementById("qrcode"), fullUrl);
+      document.getElementById("qrLink").innerHTML = `<br>Scan this QR or visit:<br><a href="${fullUrl}" target="_blank">${fullUrl}</a>`;
+    }
+  </script>
+</body>
+</html>
